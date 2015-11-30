@@ -24,5 +24,10 @@ vagrant up
  
 Jenkins becomes available at `http://localhost:8082`
 
+Incremental changes are deployed to the VM via:
+```
+vagrant provision
+```
+
 
 
