@@ -24,7 +24,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default[:home][:centos][:packages]      = %w( wget curl iptables-services )
+default[:home][:centos][:packages]      = %w( wget curl iptables-services git )
 
 default[:jenkins][:sleep_interval]      = 20
 default[:jenkins][:user]                = 'jenkins'

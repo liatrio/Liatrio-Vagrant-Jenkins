@@ -51,9 +51,8 @@ end
 #
 # jenkins install
 #
-service "jenkins" do
-  action :nothing
-end
+service "jenkins"
+
 case node['platform']
 when 'debian', 'ubuntu'
   execute "Install Jenkins the simple way on #{node['platform']}" do
@@ -75,7 +74,13 @@ when 'redhat', 'centos', 'fedora'
   end
   package 'jenkins' do
     action :install
-    notifies :restart, 'service[jenkins]', :immediately
+    notifies :restart, 'service[jenkins]', :delayed
+  end
+  execute "disable chunking in Jenkins" do
+    command <<-EOL
+      echo "-Dhudson.diyChunking=false" >> /etc/sysconfig/jenkins
+    EOL
+    not_if " cat /etc/sysconfig/jenkins | grep Dhudson.diyChunking "
   end
 end
 

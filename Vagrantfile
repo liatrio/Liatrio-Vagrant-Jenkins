@@ -12,6 +12,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "chef_solo" do |chef|
     chef.add_recipe "jenkins::install_server"
     chef.add_recipe "jenkins::install_plugins"
+    chef.add_recipe "jenkins::create_job"
   end
 
 
