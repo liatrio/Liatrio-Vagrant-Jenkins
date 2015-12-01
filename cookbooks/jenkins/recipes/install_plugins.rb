@@ -16,7 +16,8 @@ group node[:jenkins][:group] do
   action :create
 end
 
-execute "wget http://#{node[:jenkins][:ip]}/jnlpJars/jenkins-cli.jar" do
+
+execute "sleep #{node[:jenkins][:sleep_interval]} && wget http://#{node[:jenkins][:ip]}/jnlpJars/jenkins-cli.jar" do
   cwd "/opt"
   not_if { ::File.exists?('/opt/jenkins-cli.jar') }
 end
