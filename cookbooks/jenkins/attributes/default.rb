@@ -27,7 +27,6 @@
 default[:home][:centos][:packages]             = %w( wget curl iptables-services git )
 
 default[:jenkins][:sleep_interval]             = 20
-default[:jenkins][:sleep_interval_small]       = 20
 default[:jenkins][:user]                       = 'jenkins'
 default[:jenkins][:group]                      = 'jenkins'
 default[:jenkins][:ip]                         = "127.0.0.1:8080"

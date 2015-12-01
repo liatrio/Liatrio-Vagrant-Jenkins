@@ -16,10 +16,23 @@ group node[:jenkins][:group] do
   action :create
 end
 
+ruby_block "before_wait_for_jenkins" do
+  block do
+    while true do
+      ` curl http://127.0.0.1:8080/jnlpJars/jenkins-cli.jar -X HEAD -I -s | grep "200 OK" `
+      exitstatus = $?.exitstatus
+      break if 0 == exitstatus
+      sleep node[:jenkins][:sleep_interval]
+    end
+  end
+  notifies :run, 'execute[get_jenkins_cli_jar]', :immediately
+end
 
-execute "sleep #{node[:jenkins][:sleep_interval]} && wget http://#{node[:jenkins][:ip]}/jnlpJars/jenkins-cli.jar" do
+execute "get_jenkins_cli_jar" do
+  command "sleep #{node[:jenkins][:sleep_interval]} && wget http://#{node[:jenkins][:ip]}/jnlpJars/jenkins-cli.jar"
   cwd "/opt"
-  not_if { ::File.exists?('/opt/jenkins-cli.jar') }
+  # not_if { ::File.exists?('/opt/jenkins-cli.jar') }
+  action :nothing
 end
 
 directory node[:jenkins][:plugins_dir] do
@@ -62,7 +75,7 @@ ruby_block "wait_for_jenkins" do
       ` curl http://127.0.0.1:8080/jnlpJars/jenkins-cli.jar -X HEAD -I -s | grep "200 OK" `
       exitstatus = $?.exitstatus
       break if 0 == exitstatus
-      sleep node[:jenkins][:sleep_interval_small]
+      sleep node[:jenkins][:sleep_interval]
     end
   end
 end
