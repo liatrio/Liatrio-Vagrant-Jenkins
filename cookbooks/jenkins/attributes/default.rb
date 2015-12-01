@@ -24,20 +24,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default[:home][:centos][:packages]      = %w( wget curl iptables-services git )
+default[:home][:centos][:packages]             = %w( wget curl iptables-services git )
 
-default[:jenkins][:sleep_interval]      = 20
-default[:jenkins][:user]                = 'jenkins'
-default[:jenkins][:group]               = 'jenkins'
-default[:jenkins][:ip]                  = "127.0.0.1:8080"
-default[:jenkins][:plugins_dir]         = "/var/lib/jenkins/plugins"
-default[:jenkins][:plugins_site]        = "http://updates.jenkins-ci.org/download/plugins"
-default[:jenkins][:plugins_site]        = "https://updates.jenkins-ci.org/latest/" # +"git.hpi"
-default[:jenkins][:nexus_repo]          = "nexus.local"
-default[:jenkins][:job_name]            = "petclinic-auto-1"
-default[:jenkins][:ubuntu][:packages]   = %w( maven default-jdk )
-default[:jenkins][:centos][:packages]   = %w( maven java-1.7.0-openjdk ) # httpd instead of apache2 on centos
-default[:jenkins][:plugins_list]        = %w( 
+default[:jenkins][:sleep_interval]             = 20
+default[:jenkins][:sleep_interval_small]       = 20
+default[:jenkins][:user]                       = 'jenkins'
+default[:jenkins][:group]                      = 'jenkins'
+default[:jenkins][:ip]                         = "127.0.0.1:8080"
+default[:jenkins][:plugins_dir]                = "/var/lib/jenkins/plugins"
+default[:jenkins][:plugins_site]               = "http://updates.jenkins-ci.org/download/plugins"
+default[:jenkins][:plugins_site]               = "https://updates.jenkins-ci.org/latest/" # +"git.hpi"
+default[:jenkins][:nexus_repo]                 = "nexus.local"
+default[:jenkins][:job_name]                   = "petclinic-auto-1"
+default[:jenkins][:ubuntu][:packages]          = %w( maven default-jdk )
+default[:jenkins][:centos][:packages]          = %w( maven java-1.7.0-openjdk ) # httpd instead of apache2 on centos
+default[:jenkins][:plugins_list]               = %w( 
   credentials ssh-credentials mailer scm-api git git-client
   jquery parameterized-trigger build-pipeline-plugin 
   authorize-project
