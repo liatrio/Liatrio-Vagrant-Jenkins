@@ -75,6 +75,7 @@ when 'redhat', 'centos', 'fedora'
   package 'jenkins' do
     action :install
     notifies :restart, 'service[jenkins]', :delayed
+    notifies :run, 'ruby_block[wait_for_jenkins]', :delayed
   end
   execute "disable chunking in Jenkins" do
     command <<-EOL
@@ -84,7 +85,13 @@ when 'redhat', 'centos', 'fedora'
   end
 end
 
-
+# @TODO: remove duplicate
+execute "restart_jenkins" do
+  command <<-EOL
+    curl http://#{node[:jenkins][:ip]}/safeRestart -X POST -i && sleep #{node[:jenkins][:sleep_interval]}
+  EOL
+  action :nothing
+end
 
 
 
