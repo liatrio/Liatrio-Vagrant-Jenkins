@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
   # See all boxes at https://atlas.hashicorp.com/search.
   # config.vm.box = "wgarcia/centos65-jenkins"
   config.vm.box = "centos/7"
-  config.vm.network "forwarded_port", guest: 8080, host: 8084
+  config.vm.network "forwarded_port", guest: 8080, host: 8082
 
   # recipe[jenkins::install_server], recipe[jenkins::install_plugins]
   config.vm.provision "chef_solo" do |chef|
