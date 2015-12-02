@@ -16,15 +16,16 @@ group node[:jenkins][:group] do
   action :create
 end
 
+service "jenkins" do
+  action [ :enable, :start ]
+end
+
 ruby_block "before_wait_for_jenkins" do
   block do
     while true do
       ` curl http://127.0.0.1:8080/jnlpJars/jenkins-cli.jar -X HEAD -I -s | grep "200 OK" `
       exitstatus = $?.exitstatus
-      if 0 == exitstatus
-        puts "+++ +++ before_wait_for_jenkins should exit!"
-        return
-      end
+      ( puts "+++ +++ before_wait_for_jenkins should exit!" && break ) if 0 == exitstatus
       puts "+++ +++ Sleeping in before_wait_for_jenkins..."
       sleep node[:jenkins][:sleep_interval_small]
     end

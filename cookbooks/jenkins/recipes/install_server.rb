@@ -85,6 +85,10 @@ when 'redhat', 'centos', 'fedora'
   end
 end
 
+service "jenkins" do
+  action [ :enable, :start ]
+end
+
 # @TODO: remove duplicate
 execute "restart_jenkins" do
   command <<-EOL

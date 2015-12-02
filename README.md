@@ -21,6 +21,12 @@ Clone the repo and do:
 ```
 vagrant up
 ```
+
+or if you are doing it iteratively with a single copy of the project:
+
+```
+vagrant destroy -f && vagrant up
+```
  
 Jenkins becomes available at `http://localhost:8082`
 
