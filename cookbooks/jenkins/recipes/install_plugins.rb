@@ -21,8 +21,12 @@ ruby_block "before_wait_for_jenkins" do
     while true do
       ` curl http://127.0.0.1:8080/jnlpJars/jenkins-cli.jar -X HEAD -I -s | grep "200 OK" `
       exitstatus = $?.exitstatus
-      break if 0 == exitstatus
-      sleep node[:jenkins][:sleep_interval]
+      if 0 == exitstatus
+        puts "+++ +++ before_wait_for_jenkins should exit!"
+        return
+      end
+      puts "+++ +++ Sleeping in before_wait_for_jenkins..."
+      sleep node[:jenkins][:sleep_interval_small]
     end
   end
   notifies :run, 'execute[get_jenkins_cli_jar]', :immediately
