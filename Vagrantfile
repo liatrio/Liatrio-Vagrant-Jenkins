@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
 
   config.vm.box = "centos/7"
-  
+
   config.vm.network "forwarded_port", guest: 8080, host: 8082
   config.vm.network "private_network", ip: "192.168.66.10"
 
@@ -15,12 +15,12 @@ Vagrant.configure(2) do |config|
       chef.add_recipe "jenkins::create_job"
     end
   end
-  
+
   config.vm.define "nexus" do |nexus|
     nexus.vm.provision "chef_solo" do |chef|
       chef.add_recipe "nexus::install"
+    end
   end
-  
 
 
 
@@ -34,5 +34,5 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  
+
 end
