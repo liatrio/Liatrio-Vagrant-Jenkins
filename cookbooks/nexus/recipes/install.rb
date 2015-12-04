@@ -1,4 +1,12 @@
 
+#
+# Cookbook: nexus
+# Recipe:   install
+#
+# This recipe installs Nexus and enables it as a service.
+#
+#
+
 user node[:nexus][:user] do
   action :create
 end
@@ -41,9 +49,17 @@ template "/etc/init.d/nexus" do
   })
 end
 
-execute "update_rcd" do
-  command "update-rc.d nexus defaults"
-  cwd "/etc/init.d"
+case node['platform']
+when 'debian', 'ubuntu'
+  execute "update_rcd" do
+    command "update-rc.d nexus defaults"
+    cwd "/etc/init.d"
+  end
+when 'redhat', 'fedora', 'centos'
+  execute "update_chkconfig" do
+    command "chkconfig --add nexus && chkconfig --levels 345 nexus on"
+    cwd "/etc/init.d"
+  end
 end
 
 service 'nexus' do
