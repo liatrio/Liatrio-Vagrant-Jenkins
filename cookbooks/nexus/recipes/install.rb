@@ -3,7 +3,10 @@
 # Cookbook: nexus
 # Recipe:   install
 #
-# This recipe installs Nexus and enables it as a service.
+# Author: piousbox@gmail.com
+#
+# This recipe *customly* installs Nexus and enables it as a service.
+# For the default installation, include recipe[nexus::default] instead.
 #
 #
 
@@ -32,8 +35,14 @@ execute "unpack Nexus OSS" do
 end
 
 execute "move Nexus OSS" do
-  command "mv /opt/trash/nexus-* .; ln -s nexus-* nexus"
+  command "rm -rfv nexus nexus-* ; mv /opt/trash/nexus-* . ; ln -s nexus-* nexus"
   cwd "/usr/local"
+end
+
+directory "/usr/local/nexus/shared/pids" do
+  action :create
+  recursive true
+  mode '0777'
 end
 
 # configure nexus as a service
@@ -41,7 +50,7 @@ template "/etc/init.d/nexus" do
   source "usr/local/nexus/bin/nexus.erb"
   owner node[:nexus][:user]
   group node[:nexus][:group]
-  mode "0644"
+  mode "0744"
   variables({
     :nexus_home   => node[:nexus][:home],
     :nexus_user   => node[:nexus][:user],

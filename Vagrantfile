@@ -3,8 +3,6 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.network "private_network", ip: "192.168.66.10"
-
   #
   # jenkins
   #
@@ -17,6 +15,7 @@ Vagrant.configure(2) do |config|
       chef.add_recipe "jenkins::create_job"
     end
     
+    jenkins.vm.network "private_network", :ip => "192.168.66.10"
     jenkins.vm.network "forwarded_port", guest: 8080, host: 8082
   end
   
@@ -31,6 +30,7 @@ Vagrant.configure(2) do |config|
       chef.add_recipe "nexus::install"
     end
     
+    nexus.vm.network "private_network", :ip => "192.168.56.20"
     nexus.vm.network "forwarded_port", guest: 8081, host: 8085
   end
   
