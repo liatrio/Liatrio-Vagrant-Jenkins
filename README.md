@@ -2,11 +2,14 @@
 About
 =====
 
-This Vagrant project stands up an autonomous CI/CD pipeline.
+This Vagrant project stands up an autonomous CI/CD pipeline consisting of:
 
+* Jenkins
+* Nexus
+* ...
 
-Setup and Use
-=============
+Setup
+=====
 
 This guide assumes that you have Vagrant installed (https://www.vagrantup.com/downloads.html).
 
@@ -27,13 +30,20 @@ or if you are doing it iteratively with a single copy of the project:
 ```
 vagrant destroy -f && vagrant up
 ```
- 
-Jenkins becomes available at `http://localhost:8082`
 
 Incremental changes are deployed to the VM via:
 ```
 vagrant provision
 ```
+
+Usage
+=====
+
+Jenkins becomes available at `http://localhost:8082`.
+
+Nexus becomes available at `http://localhost:8085/nexus`.
+
+
 
 
 
