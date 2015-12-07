@@ -44,6 +44,9 @@ end
 #
 case node['platform']
 when 'redhat', 'centos', 'redora'
+  service "firewalld" do
+    action [ :enable, :start ]
+  end
   node[:home][:open_ports].each do |port|
     execute "open_port_#{port}" do
       command "firewall-cmd --permanent --add-port=#{port}/tcp"
