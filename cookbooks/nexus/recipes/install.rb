@@ -1,14 +1,17 @@
 
 #
-# Cookbook: nexus
-# Recipe:   install
+# Cookbook:   nexus
+# Recipe:     install
 #
-# Author: piousbox@gmail.com
+# Author:     piousbox@gmail.com
+# Copyright:  2015 Liatrio
 #
 # This recipe *customly* installs Nexus and enables it as a service.
 # For the default installation, include recipe[nexus::default] instead.
 #
-#
+
+include_recipe "nexus::_common_system"
+include_recipe "java"
 
 user node[:nexus][:user] do
   action :create
@@ -18,6 +21,9 @@ group node[:nexus][:group] do
   action :create
 end
 
+#
+# download & unpack
+#
 execute "download Nexus OSS" do
   command <<-EOL
     wget http://www.sonatype.org/downloads/nexus-latest-bundle.tar.gz;
@@ -39,10 +45,23 @@ execute "move Nexus OSS" do
   cwd "/usr/local"
 end
 
-directory "/usr/local/nexus/shared/pids" do
-  action :create
-  recursive true
-  mode '0777'
+#
+# configure
+#
+%w(
+  /usr/local/nexus/shared/pids
+  /usr/local/nexus/bin/jsw/linux-x86-64
+  /usr/local/nexus/logs
+  /usr/local/nexus/tmp
+  /usr/local/sonatype-work
+).each do |dir|
+  directory dir do
+    action :create
+    recursive true
+    user node[:nexus][:user]
+    group node[:nexus][:group]
+    mode '0777'
+  end
 end
 
 # configure nexus as a service
