@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
   # nexus
   #
   config.vm.define "nexus" do |nexus|
-    nexus.vm.box = "centos/7"
+    nexus.vm.box = "boxcutter/centos71"
     
     nexus.vm.provision "chef_solo" do |chef|
       chef.add_recipe "liatrio::home"
