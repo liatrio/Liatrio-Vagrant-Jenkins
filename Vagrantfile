@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   # jenkins
   #
   config.vm.define "jenkins", :primary => true do |jenkins|
-    jenkins.vm.box = "centos/7"
+    jenkins.vm.box = "boxcutter/centos71"
     
     jenkins.vm.provision "chef_solo" do |chef|
       chef.add_recipe "jenkins::install_server"
